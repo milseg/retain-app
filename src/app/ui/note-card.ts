@@ -35,8 +35,13 @@ import {Component,Input} from '@angular/core';
     }
   `],
   template: `
-  <div class="note-card row shadow-1">
-    <div class="icon" (click)="onChecked()">
+  <div class="note-card row shadow-1"
+        [ngStyle]="{'background-color': note.color}"
+        (mouseenter)="toggleCheck()"
+        (mouseleave)="toggleCheck()">
+    <div class="icon"
+        (click)="onChecked()"
+        *ngIf="showChecked">
       <i class="material-icons">check</i>
     </div>
     <div class="col-xs-12 title">
@@ -50,7 +55,12 @@ import {Component,Input} from '@angular/core';
 })
 export class NoteCard {
   @Input() note = {};
+  showChecked: boolean = false;
+  toggleCheck() {
+    //console.log("Toggle checked");
+    this.showChecked = !this.showChecked;
+  };
   onChecked() {
-    console.log("Checked input");
-  }
+    console.log("click check");
+  };
 };
