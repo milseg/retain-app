@@ -8,8 +8,9 @@ import {Component} from '@angular/core';
       <app-bar></app-bar>
       <main class="main">
         Conteudo principal
+        <note-container></note-container>
       </main>
     </div>
   `
 })
-export class Main {};
+export class MainContainer {};

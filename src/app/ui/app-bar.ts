@@ -37,4 +37,4 @@ import {Component} from '@angular/core';
     </header>
   `
 })
-export class AppBar {}
+export class AppBar {};

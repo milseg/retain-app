@@ -1,1 +1,2 @@
-export {Main} from './main'
+export {MainContainer} from './main';
+export {NotesContainer} from './note';
