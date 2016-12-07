@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   template: `
     <div class="row center-xs notes">
       <div class="col-xs-6 creator">
-        note creator here
+        <note-creator (createNote)="onCreateNote($event)"></note-creator>
       </div>
       <div class="notes col-xs-8">
         <div class="row between-xs">
@@ -38,5 +38,9 @@ export class NotesContainer {
   onChecked(i){
     console.log("Receiving check");
     this.notes.splice(i, 1);
-  }
+  };
+  onCreateNote(newNote){
+    console.log("receive create note", newNote);
+    this.notes.push(newNote);
+  };
 };
