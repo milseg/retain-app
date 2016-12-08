@@ -68,6 +68,6 @@ export class NoteCard {
   };
   onChecked() {
     console.log("Emit check");
-    this.check.next();
+    this.check.next(this.note);
   };
 };
