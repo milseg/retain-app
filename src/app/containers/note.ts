@@ -1,5 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {NoteService} from '../services';
+import {Store} from '../store';
+import {Subscription} from 'rxjs/Rx';
 
 @Component({
   selector: 'note-container',
@@ -30,23 +32,36 @@ import {NoteService} from '../services';
     </div>
   `
 })
-export class NotesContainer {
-  constructor(private noteService: NoteService) {
-    noteService.getNotes().subscribe(res => this.notes = res.data);
+export class NotesContainer implements OnDestroy {
+  constructor(
+    private noteService: NoteService,
+    private store: Store,
+  ) {
+    noteService.getNotes().subscribe();//how is subscribe call useful?
+                                       //Observables are lazy and execute if and only if it has at least one subscription
+    this.notesSub = this.store.changes
+      .map(data => data.notes)//maps sequence of notes states
+      .subscribe(notes => this.notes = notes);
   }
   notes = [
     //{title: "Minha primeira nota", value: 8.0, color: "red"},
     //{title: "Minha segunda nota", value: 10.0, color: "green"},
     //{title: "Minha terceira nota", value: 9.9, color: "white"}
   ];
+  notesSub: Subscription;
+
+  ngOnDestroy(){
+    console.log("Destroy notes");
+    this.notesSub.unsubscribe();//avoids multiple subscribes
+  }
   onChecked(note, i){
     console.log("Receiving check");
     this.noteService.completeNote(note)
-      .subscribe(() => this.notes.splice(i, 1));
+      .subscribe();
   };
   onCreateNote(newNote){
     console.log("receive create note", newNote);
     this.noteService.createNote(newNote)
-        .subscribe(note => this.notes.push(note));
+        .subscribe();
   };
 };
